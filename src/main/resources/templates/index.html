@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>busbooking.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #d32f2f;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 2em;
+            letter-spacing: 2px;
+            position: relative;
+        }
+        .auth-buttons {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+        .auth-buttons button {
+            background: #fff;
+            color: #d32f2f;
+            border: none;
+            padding: 8px 18px;
+            margin-left: 10px;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s, color 0.2s;
+        }
+        .auth-buttons button:hover {
+            background: #b71c1c;
+            color: #fff;
+        }
+        .search-container {
+            background: #fff;
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 30px 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .search-container h2 {
+            color: #d32f2f;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+        }
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button[type="submit"] {
+            width: 100%;
+            background: #d32f2f;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button[type="submit"]:hover {
+            background: #b71c1c;
+        }
+        footer {
+            text-align: center;
+            padding: 18px 0;
+            background: #222;
+            color: #fff;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        @media (max-width: 600px) {
+            .search-container {
+                margin: 20px 10px;
+                padding: 20px 10px;
+            }
+            .auth-buttons {
+                position: static;
+                display: flex;
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+
+        .history-btn-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin: 18px 40px 0 0;
+        }
+        .history-btn {
+            background: #fff;
+            color: #d32f2f;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s, color 0.2s;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .history-btn:hover {
+            background: #b71c1c;
+            color: #fff;
+        }
+        @media (max-width: 600px) {
+            .history-btn-wrapper {
+                margin: 12px 10px 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    Busbooking.com
+    <div class="auth-buttons" th:if="${username == null}">
+        <button type="button" onclick="window.location.href='/login'">Login</button>
+        <button type="button" onclick="window.location.href='/signup'">Signup</button>
+    </div>
+    <div class="auth-buttons" th:if="${username != null}" style="color:#fff;">
+        Welcome, <span th:text="${username}"></span>
+        <button type="button" onclick="window.location.href='/logout'">Logout</button>
+    </div>
+</header>
+
+<div th:if="${username != null}" class="history-btn-wrapper">
+    <button class="history-btn"
+            onclick="window.location.href='/history'">
+        Booking History
+    </button>
+</div>
+
+<div class="search-container">
+    <h2>Book Your Bus Tickets</h2>
+    <form th:action="@{/searchbus}" method="post">
+        <div th:if="${param.searchError}" class="error" th:style="'color: #b71c1c;'" th:text="${param.searchError}"></div>
+        <div class="form-group">
+            <label for="from">From</label>
+            <input type="text" id="from" name="from" placeholder="Enter source city" required>
+        </div>
+        <div class="form-group">
+            <label for="to">To</label>
+            <input type="text" id="to" name="to" placeholder="Enter destination city" required>
+        </div>
+        <button type="submit">Search Buses</button>
+    </form>
+</div>
+<footer>
+    &copy; 2024 busbooking.com. All rights reserved.
+</footer>
+
+<script>
+
+</script>
+</body>
+</html>

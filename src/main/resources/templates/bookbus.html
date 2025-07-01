@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book Bus Ticket</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 32px 24px; }
+        h2 { color: #1976d2; }
+        .bus-info { margin-bottom: 24px; font-size: 1.1em; }
+        .passenger-group { margin-bottom: 16px; padding: 12px; border: 1px solid #e0e0e0; border-radius: 6px; background: #fafafa; }
+        .passenger-group label { display: block; margin-bottom: 4px; }
+        .passenger-group input { width: 95%; padding: 6px; margin-bottom: 8px; }
+        .add-btn, .remove-btn { background: #1976d2; color: #fff; border: none; padding: 8px 14px; border-radius: 4px; cursor: pointer; margin-right: 8px; }
+        .remove-btn { background: #b71c1c; }
+        .submit-btn { background: #388e3c; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; font-size: 1em; cursor: pointer; }
+    </style>
+    <script>
+        function addPassenger() {
+            const container = document.getElementById('passenger-list');
+            const idx = container.children.length;
+            const group = document.createElement('div');
+            group.className = 'passenger-group';
+            group.innerHTML = `
+                <label>Passenger Name:</label>
+                <input type="text" name="passengerNames" required />
+                <label>Age:</label>
+                <input type="number" name="passengerAges" min="0" required />
+                <label>Gender:</label>
+                <input type="text" name="passengerGenders" required />
+                <button type="button" class="remove-btn" onclick="removePassenger(this)">Remove</button>
+            `;
+            container.appendChild(group);
+        }
+        function removePassenger(btn) {
+            btn.parentElement.remove();
+        }
+        function confirmBooking(event) {
+            if (!confirm('Are you sure you want to confirm this booking?')) {
+                event.preventDefault();
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>Book Bus Ticket</h2>
+    <div class="bus-info">
+        Bus Number: <span th:text="${busNumber}"></span>
+    </div>
+    <form th:action="@{/book}" method="post" onsubmit="confirmBooking(event)">
+        <input type="hidden" name="busNumber" th:value="${busNumber}" />
+        <div id="passenger-list">
+            <div class="passenger-group">
+                <label>Passenger Name:</label>
+                <input type="text" name="passengerNames" required />
+                <label>Age:</label>
+                <input type="number" name="passengerAges" min="0" required />
+                <label>Gender:</label>
+                <input type="text" name="passengerGenders" required />
+            </div>
+        </div>
+        <button type="button" class="add-btn" onclick="addPassenger()">Add Passenger</button>
+        <br/><br/>
+        <button type="submit" class="submit-btn">Book Ticket</button>
+    </form>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Booking History</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #d32f2f;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 2em;
+            letter-spacing: 2px;
+            position: relative;
+        }
+        .auth-buttons {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+        .auth-buttons button {
+            background: #fff;
+            color: #d32f2f;
+            border: none;
+            padding: 8px 18px;
+            margin-left: 10px;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s, color 0.2s;
+        }
+        .auth-buttons button:hover {
+            background: #b71c1c;
+            color: #fff;
+        }
+        .search-container {
+            background: #fff;
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 30px 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .search-container h2 {
+            color: #d32f2f;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+        }
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button[type="submit"] {
+            width: 100%;
+            background: #d32f2f;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button[type="submit"]:hover {
+            background: #b71c1c;
+        }
+        footer {
+            text-align: center;
+            padding: 18px 0;
+            background: #222;
+            color: #fff;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        @media (max-width: 600px) {
+            .search-container {
+                margin: 20px 10px;
+                padding: 20px 10px;
+            }
+            .auth-buttons {
+                position: static;
+                display: flex;
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+
+        .history-btn-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin: 18px 40px 0 0;
+        }
+        .history-btn {
+            background: #fff;
+            color: #d32f2f;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s, color 0.2s;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .history-btn:hover {
+            background: #b71c1c;
+            color: #fff;
+        }
+        @media (max-width: 600px) {
+            .history-btn-wrapper {
+                margin: 12px 10px 0 0;
+            }
+        }
+        .history-card {
+            width: 98%;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 24px 32px;
+            display: block;
+        }
+        .history-card h3 {
+            color: #1976d2;
+            margin-top: 0;
+        }
+        .ticket-details {
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+        .passenger-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .passenger-table th, .passenger-table td {
+            border: 1px solid #e0e0e0;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        .passenger-table th {
+            background: #f0f4f8;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1><a href="/">Bus Booking System</a></h1>
+    <div th:if="${username != null}" style="position:absolute;top:24px;right:40px;font-size:1.1em;">
+        Welcome, <span th:text="${username}"></span>
+    </div>
+</div>
+<div>
+    <h2 style="text-align:center;color:#1976d2;">Booking History</h2>
+    <div th:if="${#lists.isEmpty(tickets)}" style="text-align:center;margin-top:40px;">
+        <p>No bookings found.</p>
+    </div>
+    <div th:each="ticket : ${tickets}" class="history-card">
+        <h3>Ticket #<span th:text="${ticket.booking.bookingId}"></span></h3>
+        <div class="ticket-details">
+            <strong>Bus Number:</strong> <span th:text="${ticket.booking.busNumber}"></span> &nbsp;
+            <strong>From:</strong> <span th:text="${ticket.booking.source}"></span> &nbsp;
+            <strong>To:</strong> <span th:text="${ticket.booking.destination}"></span> &nbsp;
+            <strong>Seats:</strong> <span th:text="${ticket.booking.numberOfSeats}"></span> &nbsp;
+            <strong>Total Fare:</strong> ₹<span th:text="${ticket.booking.totalFare}"></span>
+            <strong>Status:</strong> <span th:text="${ticket.booking.status}"></span>
+        </div>
+        <div>
+            <strong>Passengers:</strong>
+            <table class="passenger-table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${ticket.passengers}">
+                    <td th:text="${p.name}"></td>
+                    <td th:text="${p.age}"></td>
+                    <td th:text="${p.gender}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

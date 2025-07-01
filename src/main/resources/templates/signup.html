@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sign Up</title>
+    <meta charset="UTF-8">
+    <style>
+        header {
+            background: #d32f2f;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 2em;
+            letter-spacing: 2px;
+        }
+        body {
+            background: #f5f7fa;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .signup-container {
+            width: 350px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+            padding: 36px 32px 28px 32px;
+        }
+        .signup-container h2 {
+            text-align: center;
+            color: #1976d2;
+            margin-bottom: 28px;
+            font-weight: 600;
+        }
+        .signup-form label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-size: 1em;
+        }
+        .signup-form input[type="email"],
+        .signup-form input[type="password"],
+        .signup-form input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            border: 1px solid #bdbdbd;
+            border-radius: 5px;
+            font-size: 1em;
+            background: #f9f9f9;
+            transition: border 0.2s;
+        }
+        .signup-form input:focus {
+            border: 1.5px solid #1976d2;
+            outline: none;
+            background: #fff;
+        }
+        .signup-form button {
+            width: 100%;
+            padding: 10px 0;
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .signup-form button:hover {
+            background: #1565c0;
+        }
+        .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #1976d2;
+            text-decoration: none;
+            font-size: 0.98em;
+        }
+        .login-link:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 500px) {
+            .signup-container {
+                width: 95%;
+                padding: 24px 8px 18px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    Busbooking.com
+</header>
+<div class="signup-container">
+    <h2>Sign Up</h2>
+    <form class="signup-form" th:action="@{/signup}" method="post">
+
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required autocomplete="name" pattern="[A-Za-z\s]{2,50}" title="Enter a valid name (2-50 characters)">
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email">
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="new-password">
+
+        <label for="phoneNumber">Phone Number</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required pattern="[0-9]{10,15}" title="Enter a valid phone number">
+
+        <button type="submit">Create Account</button>
+    </form>
+    <a class="login-link" th:href="@{/login}">Already have an account? Log in</a>
+</div>
+</body>
+</html>
